@@ -43,7 +43,6 @@ function provisioning_start() {
         "${WORKSPACE}/storage/stable_diffusion/models/lora" \
         "${LORA_MODELS[@]}"
     
-    provisioning_prepare_fooocus
     provisioning_print_end
 }
 
@@ -73,26 +72,6 @@ function provisioning_get_models() {
     done
 }
 
-function provisioning_prepare_fooocus() {
-    source "$FOOOCUS_VENV/bin/activate"
-    PLATFORM_FLAGS=
-    if [[ $XPU_TARGET = "CPU" ]]; then
-        PLATFORM_FLAGS="--always-cpu --disable-xformers"
-    elif [[ $XPU_TARGET = "AMD_GPU" ]]; then
-        PLATFORM_FLAGS="--disable-xformers"
-    fi
-    cd /opt/Fooocus
-    LD_PRELOAD=libtcmalloc.so python launch.py \
-        $PLATFORM_FLAGS \
-        --port 11404 &
-    foocus_pid=$!
-
-    until $(grep -iq "App started successful" /var/log/provisioning.log > /dev/null 2&>1); do
-        sleep 1
-    done
-
-    kill -9 $foocus_pid
-}
 
 function provisioning_print_header() {
     printf "\n##############################################\n#                                            #\n#          Provisioning container            #\n#                                            #\n#         This will take some time           #\n#                                            #\n# Your container will be ready on completion #\n#                                            #\n##############################################\n\n"
