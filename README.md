@@ -47,8 +47,8 @@ Supported Platforms: `NVIDIA CUDA`, `AMD ROCm`, `CPU`
 | -------------------------- | ----------- |
 | `AUTO_UPDATE`              | Update Fooocus on startup (default `false`) |
 | `FOOOCUS_BRANCH`           | Fooocus branch/commit hash for auto update. (default `master`) |
-| `FOOOCUS_FLAGS`            | Startup flags. eg. `--no-half --api` |
-| `FOOOCUS_PORT_HOST`        | Web UI port (default `7860`) |
+| `FOOOCUS_FLAGS`            | Startup flags. eg. `--preset realistic` |
+| `FOOOCUS_PORT_HOST`        | Web UI port (default `7865`) |
 | `FOOOCUS_URL`              | Override `$DIRECT_ADDRESS:port` with URL for Web UI |
 
 See the base environment variables [here](https://github.com/ai-dock/base-image/wiki/2.0-Environment-Variables) for more configuration options.

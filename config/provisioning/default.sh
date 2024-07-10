@@ -75,9 +75,15 @@ function provisioning_get_models() {
 
 function provisioning_prepare_fooocus() {
     source "$FOOOCUS_VENV/bin/activate"
+    PLATFORM_FLAGS=
+    if [[ $XPU_TARGET = "CPU" ]]; then
+        PLATFORM_FLAGS="--always-cpu --disable-xformers"
+    elif [[ $XPU_TARGET = "AMD_GPU" ]]; then
+        PLATFORM_FLAGS="--disable-xformers"
+    fi
     cd /opt/Fooocus
     LD_PRELOAD=libtcmalloc.so python launch.py \
-        --always-cpu \
+        $PLATFORM_FLAGS \
         --port 11404 &
     foocus_pid=$!
 
