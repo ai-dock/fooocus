@@ -3,7 +3,7 @@
 
 function preflight_main() {
     preflight_update_fooocus
-    printf "%s" "${FOOOCUS_FLAGS}" > /etc/fooocus_flags.conf
+    printf "%s" "${FOOOCUS_ARGS}" > /etc/fooocus_args.conf
 }
 
 function preflight_update_fooocus() {

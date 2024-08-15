@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo "$@" > /etc/fooocus_flags.conf
+echo "$@" > /etc/fooocus_args.conf
 supervisorctl restart fooocus

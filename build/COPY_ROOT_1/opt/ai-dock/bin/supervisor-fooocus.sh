@@ -41,14 +41,14 @@ function start() {
     
     printf "Starting $SERVICE_NAME...\n"
     
-    PLATFORM_FLAGS=
+    PLATFORM_ARGS=
     if [[ $XPU_TARGET = "CPU" ]]; then
-        PLATFORM_FLAGS="--always-cpu --disable-xformers"
+        PLATFORM_ARGS="--always-cpu --disable-xformers"
     elif [[ $XPU_TARGET = "AMD_GPU" ]]; then
-        PLATFORM_FLAGS="--disable-xformers"
+        PLATFORM_ARGS="--disable-xformers"
     fi
 
-    BASE_FLAGS=""
+    BASE_ARGS=""
     
     # Delay launch until provisioning completes
     if [[ -f /run/workspace_sync || -f /run/container_config ]]; then
@@ -72,13 +72,13 @@ function start() {
     fuser -k -SIGKILL ${LISTEN_PORT}/tcp > /dev/null 2>&1 &
     wait -n
     
-    FLAGS_COMBINED="${PLATFORM_FLAGS} ${BASE_FLAGS} $(cat /etc/fooocus_flags.conf)"
+    ARGS_COMBINED="${PLATFORM_ARGS} ${BASE_ARGS} $(cat /etc/fooocus_args.conf)"
     printf "Starting %s...\n" "${SERVICE_NAME}"
 
     cd /opt/Fooocus
     source "$FOOOCUS_VENV/bin/activate"
     LD_PRELOAD=libtcmalloc.so python launch.py \
-        ${FLAGS_COMBINED} --port ${LISTEN_PORT}
+        ${ARGS_COMBINED} --port ${LISTEN_PORT}
 }
 
 start 2>&1

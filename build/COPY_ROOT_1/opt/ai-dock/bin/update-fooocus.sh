@@ -1,11 +1,13 @@
 #!/bin/bash
 umask 002
-branch=main
 
 source /opt/ai-dock/bin/venv-set.sh fooocus
 
 if [[ -n "${FOOOCUS_BRANCH}" ]]; then
     branch="${FOOOCUS_BRANCH}"
+else
+    branch="$(curl -s https://api.github.com/repos/lllyasviel/Fooocus/tags | \
+            jq -r '.[0].name')"
 fi
 
 # -b flag has priority
@@ -15,6 +17,8 @@ do
         b) branch="$OPTARG";;
     esac
 done
+
+[[ -n $branch ]] || echo "Failed to get update target"; exit 1
 
 printf "Updating Fooocus (${branch})...\n"
 
