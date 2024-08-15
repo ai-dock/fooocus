@@ -162,7 +162,7 @@ jobs:
 
             if [[ ${{ matrix.build.latest }} == "true" ]]; then
                 echo "Marking latest"
-                TAGS="${img_path_ghcr}:${base_tag}-${FOOOCUS_BUILD_REF}, ${img_path_ghcr}:${base_tag}, ${img_path_ghcr}:latest, ${img_path}:latest-cuda"
+                TAGS="${img_path_ghcr}:${base_tag}-${FOOOCUS_BUILD_REF}, ${img_path_ghcr}:${base_tag}, ${img_path_ghcr}:latest, ${img_path_ghcr}:latest-cuda"
                 TAGS="${TAGS}, ${img_path_dhub}:${FOOOCUS_BUILD_REF}, ${img_path_dhub}:latest"
             else
                 TAGS="${img_path_ghcr}:${base_tag}-${FOOOCUS_BUILD_REF}, ${img_path_dhub}:${FOOOCUS_BUILD_REF}"
