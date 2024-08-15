@@ -7,13 +7,13 @@ services:
       context: ./build
       args:
         PYTHON_VERSION: ${PYTHON_VERSION:-3.10}
-        PYTORCH_VERSION: ${PYTORCH_VERSION:-2.3.0}
+        PYTORCH_VERSION: ${PYTORCH_VERSION:-2.4.0}
         FOOOCUS_TAG: ${FOOOCUS_TAG:-}
-        IMAGE_BASE: ${IMAGE_BASE:-ghcr.io/ai-dock/python:${PYTHON_VERSION:-3.10}-cuda-12.1.1-base-22.04}
+        IMAGE_BASE: ${IMAGE_BASE:-ghcr.io/ai-dock/python:${PYTHON_VERSION:-3.10}-v2-cuda-12.1.1-base-22.04}
       tags:
-        - "ghcr.io/ai-dock/fooocus:${IMAGE_TAG:-cuda-12.1.1-base-22.04}"
+        - "ghcr.io/ai-dock/fooocus:${IMAGE_TAG:-v2-cuda-12.1.1-base-22.04}"
         
-    image: ghcr.io/ai-dock/fooocus:${IMAGE_TAG:-cuda-12.1.1-base-22.04}
+    image: ghcr.io/ai-dock/fooocus:${IMAGE_TAG:-v2-cuda-12.1.1-base-22.04}
     
     devices:
       - "/dev/dri:/dev/dri"
@@ -52,6 +52,7 @@ services:
         - CF_TUNNEL_TOKEN=${CF_TUNNEL_TOKEN:-}
         - CF_QUICK_TUNNELS=${CF_QUICK_TUNNELS:-true}
         - WEB_ENABLE_AUTH=${WEB_ENABLE_AUTH:-true}
+        - WEB_ENABLE_HTTPS=${WEB_ENABLE_HTTPS:-false}
         - WEB_USER=${WEB_USER:-user}
         - WEB_PASSWORD=${WEB_PASSWORD:-password}
         - SSH_PORT_HOST=${SSH_PORT_HOST:-2222}

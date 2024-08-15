@@ -35,7 +35,7 @@ Tags follow these patterns:
 
 - `:latest-cpu` &rarr; `:v2-cpu-22.04` 
 
-Browse [here](https://github.com/ai-dock/fooocus/pkgs/container/fooocus) for an image suitable for your target environment.
+Browse [ghcr.io](https://github.com/ai-dock/fooocus/pkgs/container/fooocus) for an image suitable for your target environment. You can also find [CUDA](https://hub.docker.com/r/aidockorg/fooocus-cuda) images at DockerHub.
 
 Supported Python versions: `3.10`
 
@@ -47,7 +47,7 @@ Supported Platforms: `NVIDIA CUDA`, `AMD ROCm`, `CPU`
 | -------------------------- | ----------- |
 | `AUTO_UPDATE`              | Update Fooocus on startup (default `false`) |
 | `FOOOCUS_BRANCH`           | Fooocus branch/commit hash for auto update. (default `master`) |
-| `FOOOCUS_FLAGS`            | Startup flags. eg. `--preset realistic` |
+| `FOOOCUS_ARGS`             | Startup arguments. eg. `--preset realistic` |
 | `FOOOCUS_PORT_HOST`        | Web UI port (default `7865`) |
 | `FOOOCUS_URL`              | Override `$DIRECT_ADDRESS:port` with URL for Web UI |
 
@@ -59,7 +59,13 @@ See the base environment variables [here](https://github.com/ai-dock/base-image/
 | ---------------- | ----------------------------------------- |
 | `fooocus`        | Fooocus and dependencies |
 
-This environment will be activated on shell login.
+The `fooocus` environment will be activated on shell login.
+
+If you have a storage volume mounted at `$WORKSPACE`, you may wish to persist your environment for future use after destroying the container. To do this you can run:
+
+```
+venv-sync fooocus && sudo supervisorctl restart fooocus
+```
 
 ~~See the base micromamba environments [here](https://github.com/ai-dock/base-image/wiki/1.0-Included-Software#installed-micromamba-environments).~~
 
@@ -70,11 +76,11 @@ The following services will be launched alongside the [default services](https:/
 
 ### Fooocus
 
-The service will launch on port `7865` unless you have specified an override with `FOOOCUS_PORT`.
+The service will launch on port `7865` unless you have specified an override with `FOOOCUS_PORT_HOST`.
 
 If variable `AUTO_UPDATE=true`, Fooocus will be updated to the latest version on container start. You can pin the version to a branch or commit hash by setting the `FOOOCUS_BRANCH` variable.
 
-You can set startup flags by using variable `FOOOCUS_FLAGS`.
+You can set startup flags by using variable `FOOOCUS_ARGS`.
 
 To manage this service you can use `supervisorctl [start|stop|restart] fooocus`.
 
@@ -86,9 +92,9 @@ To manage this service you can use `supervisorctl [start|stop|restart] fooocus`.
 
 **Vast.​ai**
 
-- [A1111 WebUI:latest-cuda](https://link.ai-dock.org/template-vast-fooocus)
+- [Fooocus:latest-cuda](https://link.ai-dock.org/template-vast-fooocus)
 
-- [A1111 WebUI:latest-rocm](https://link.ai-dock.org/template-vast-fooocus-rocm)
+- [Fooocus:latest-rocm](https://link.ai-dock.org/template-vast-fooocus-rocm)
 
 ---
 

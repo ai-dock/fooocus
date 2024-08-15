@@ -1,8 +1,10 @@
 #!/bin/bash
-# This file will be sourced in init.sh
+# This file will be run by init.sh
 # Namespace functions with provisioning_
 
 # https://raw.githubusercontent.com/ai-dock/fooocus/main/config/provisioning/default.sh
+
+# Default for Fooocus is do nothing!
 
 ### Edit the following arrays to suit your workflow - values must be quoted and separated by newlines or spaces.
 
@@ -86,7 +88,17 @@ function provisioning_print_end() {
 
 # Download from $1 URL to $2 file path
 function provisioning_download() {
-    wget -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -P "$2" "$1"
+    if [[ -n $HF_TOKEN && $1 =~ ^https://([a-zA-Z0-9_-]+\.)?huggingface\.co(/|$|\?) ]]; then
+        auth_token="$HF_TOKEN"
+    elif 
+        [[ -n $CIVITAI_TOKEN && $1 =~ ^https://([a-zA-Z0-9_-]+\.)?civitai\.com(/|$|\?) ]]; then
+        auth_token="$CIVITAI_TOKEN"
+    fi
+    if [[ -n $auth_token ]];then
+        wget --header="Authorization: Bearer $auth_token" -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -P "$2" "$1"
+    else
+        wget -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -P "$2" "$1"
+    fi
 }
 
 provisioning_start

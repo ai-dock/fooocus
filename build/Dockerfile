@@ -1,6 +1,6 @@
 # For build automation - Allows building from any ai-dock base image
 # Use a *cuda*base* image as default because pytorch brings the libs
-ARG IMAGE_BASE="ghcr.io/ai-dock/python:3.10-cuda-12.1.1-base-22.04"
+ARG IMAGE_BASE="ghcr.io/ai-dock/python:3.10-v2-cuda-12.1.1-base-22.04"
 FROM ${IMAGE_BASE}
 
 LABEL org.opencontainers.image.source https://github.com/ai-dock/fooocus
@@ -12,12 +12,12 @@ ENV FOOOCUS_VENV_PYTHON=$FOOOCUS_VENV/bin/python
 ENV FOOOCUS_VENV_PIP=$FOOOCUS_VENV/bin/pip
 
 ENV IMAGE_SLUG="fooocus"
-ENV OPT_SYNC=fooocus
+ENV OPT_SYNC=Fooocus
 
 # Prepare environment
 ARG PYTHON_VERSION="3.10"
 ENV PYTHON_VERSION="${PYTHON_VERSION}"
-ARG PYTORCH_VERSION="2.2.2"
+ARG PYTORCH_VERSION="2.4.0"
 ENV PYTORCH_VERSION="${PYTORCH_VERSION}"
 COPY --chown=0:1111 ./COPY_ROOT_0/ /
 ARG IMAGE_BASE
