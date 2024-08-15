@@ -46,7 +46,7 @@ Supported Platforms: `NVIDIA CUDA`, `AMD ROCm`, `CPU`
 | Variable                   | Description |
 | -------------------------- | ----------- |
 | `AUTO_UPDATE`              | Update Fooocus on startup (default `false`) |
-| `FOOOCUS_BRANCH`           | Fooocus branch/commit hash for auto update. (default `master`) |
+| `FOOOCUS_REF`              | Fooocus branch/tag/commit hash for auto update. (default to latest release) |
 | `FOOOCUS_ARGS`             | Startup arguments. eg. `--preset realistic` |
 | `FOOOCUS_PORT_HOST`        | Web UI port (default `7865`) |
 | `FOOOCUS_URL`              | Override `$DIRECT_ADDRESS:port` with URL for Web UI |

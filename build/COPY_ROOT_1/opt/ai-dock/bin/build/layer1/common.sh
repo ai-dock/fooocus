@@ -9,16 +9,16 @@ build_common_main() {
 
 build_common_install_fooocus() {
     # Get latest tag from GitHub if not provided
-    if [[ -z $FOOCUS_TAG ]]; then
-        export FOOOCUS_TAG="$(curl -s https://api.github.com/repos/lllyasviel/Fooocus/tags | \
+    if [[ -z $FOOCUS_BUILD_REF ]]; then
+        export FOOOCUS_BUILD_REF="$(curl -s https://api.github.com/repos/lllyasviel/Fooocus/tags | \
             jq -r '.[0].name')"
-        env-store FOOOCUS_TAG
+        env-store FOOOCUS_BUILD_REF
     fi
 
     cd /opt
     git clone https://github.com/lllyasviel/Fooocus
     cd /opt/Fooocus
-    git checkout "$FOOOCUS_TAG"
+    git checkout "$FOOOCUS_BUILD_REF"
     
     "$FOOOCUS_VENV_PIP" install --no-cache-dir -r requirements_versions.txt
 }

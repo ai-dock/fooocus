@@ -3,28 +3,29 @@ umask 002
 
 source /opt/ai-dock/bin/venv-set.sh fooocus
 
-if [[ -n "${FOOOCUS_BRANCH}" ]]; then
-    branch="${FOOOCUS_BRANCH}"
+if [[ -n "${FOOOCUS_REF}" ]]; then
+    ref="${FOOOCUS_REF}"
 else
-    branch="$(curl -s https://api.github.com/repos/lllyasviel/Fooocus/tags | \
+    # The latest tagged release
+    ref="$(curl -s https://api.github.com/repos/lllyasviel/Fooocus/tags | \
             jq -r '.[0].name')"
 fi
 
-# -b flag has priority
-while getopts b: flag
+# -r argument has priority
+while getopts r: flag
 do
     case "${flag}" in
-        b) branch="$OPTARG";;
+        r) ref="$OPTARG";;
     esac
 done
 
-[[ -n $branch ]] || echo "Failed to get update target"; exit 1
+[[ -n $ref ]] || { echo "Failed to get update target"; exit 1; }
 
-printf "Updating Fooocus (${branch})...\n"
+printf "Updating Fooocus (${ref})...\n"
 
 cd /opt/Fooocus
 git fetch --tags
-git checkout ${branch}
+git checkout ${ref}
 git pull
 
 "$FOOOCUS_VENV_PIP" install --no-cache-dir -r requirements_versions.txt

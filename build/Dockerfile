@@ -24,8 +24,8 @@ ARG IMAGE_BASE
 RUN set -eo pipefail && /opt/ai-dock/bin/build/layer0/init.sh | tee /var/log/build.log
 
 # Install software
-ARG FOOOCUS_TAG
-ENV FOOOCUS_TAG=${FOOOCUS_TAG}
+ARG FOOOCUS_BUILD_REF
+ENV FOOOCUS_BUILD_REF=${FOOOCUS_BUILD_REF}
 COPY --chown=0:1111 ./COPY_ROOT_1/ /
 ARG IMAGE_BASE
 RUN set -eo pipefail && /opt/ai-dock/bin/build/layer1/init.sh | tee -a /var/log/build.log
