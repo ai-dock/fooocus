@@ -77,13 +77,13 @@ function start() {
 
     cd /opt/Fooocus-API
 
-    if [[ -e /opt/Foocus-API/config.txt ]]; then
-        ln -s /opt/Foocus/config.txt /opt/Fooocus-API/config.txt
+    if [[ ! -e /opt/Fooocus-API/config.txt ]]; then
+        ln -s /opt/Fooocus/config.txt /opt/Fooocus-API/config.txt
     fi
 
     source "$FOOOCUS_VENV/bin/activate"
     LD_PRELOAD=libtcmalloc.so python main.py \
-        ${ARGS_COMBINED} --port ${LISTEN_PORT}
+        ${ARGS_COMBINED} --port ${LISTEN_PORT} --skip-pip
 }
 
 start 2>&1
