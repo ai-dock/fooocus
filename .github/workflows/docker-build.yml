@@ -98,7 +98,7 @@ jobs:
             PYTHON_VERSION=${{ matrix.build.python }}
             PYTORCH_VERSION=${{ matrix.build.pytorch }}
             FOOOCUS_BUILD_REF=${{ env.FOOOCUS_BUILD_REF }}
-            FOOCUS_API_BUILD_REF=${{ env.FOOOCUS_API_BUILD_REF }}
+            FOOOCUS_API_BUILD_REF=${{ env.FOOOCUS_API_BUILD_REF }}
           push: true
           # Avoids unknown/unknown architecture and extra metadata
           provenance: false
@@ -195,7 +195,7 @@ jobs:
             PYTHON_VERSION=${{ matrix.build.python }}
             PYTORCH_VERSION=${{ matrix.build.pytorch }}
             FOOOCUS_BUILD_REF=${{ env.FOOOCUS_BUILD_REF }}
-            FOOCUS_API_BUILD_REF=${{ env.FOOOCUS_API_BUILD_REF }}
+            FOOOCUS_API_BUILD_REF=${{ env.FOOOCUS_API_BUILD_REF }}
           push: true
           provenance: false
           tags: ${{ env.TAGS }}
@@ -288,7 +288,7 @@ jobs:
             PYTHON_VERSION=${{ matrix.build.python }}
             PYTORCH_VERSION=${{ matrix.build.pytorch }}
             FOOOCUS_BUILD_REF=${{ env.FOOOCUS_BUILD_REF }}
-            FOOCUS_API_BUILD_REF=${{ env.FOOOCUS_API_BUILD_REF }}
+            FOOOCUS_API_BUILD_REF=${{ env.FOOOCUS_API_BUILD_REF }}
           push: true
           provenance: false
           tags: ${{ env.TAGS }}
