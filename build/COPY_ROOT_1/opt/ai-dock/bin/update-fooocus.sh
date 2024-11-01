@@ -11,6 +11,14 @@ else
             jq -r '.[0].name')"
 fi
 
+if [[ -n "${FOOOCUS_API_REF}" ]]; then
+    api_ref="${FOOOCUS_API_REF}"
+else
+    # The latest tagged release
+    api_ref="$(curl -s https://api.github.com/repos/mrhan1993/Fooocus-API/tags | \
+            jq -r '.[0].name')"
+fi
+
 # -r argument has priority
 while getopts r: flag
 do
@@ -29,3 +37,10 @@ git checkout ${ref}
 git pull
 
 "$FOOOCUS_VENV_PIP" install --no-cache-dir -r requirements_versions.txt
+
+cd /opt/Fooocus-API
+git fetch --tags
+git checkout ${api_ref}
+git pull
+
+"$FOOOCUS_VENV_PIP" install --no-cache-dir -r requirements.txt

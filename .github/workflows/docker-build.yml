@@ -17,7 +17,7 @@ jobs:
       matrix:
         build:
           # Undeclared release tag finds latest from GitHub tags
-          - {latest: "true", fooocus: "v2.5.5", python: "3.10", pytorch: "2.4.0"}
+          - {latest: "false", fooocus: "d7439b2", python: "3.10", pytorch: "2.5.1"}
     steps:
       -
         name: Free Space
@@ -71,6 +71,14 @@ jobs:
             [ -z "$FOOOCUS_BUILD_REF" ] && { echo "Error: FOOOCUS_BUILD_REF is empty. Exiting script." >&2; exit 1; }
             echo "FOOOCUS_BUILD_REF=${FOOOCUS_BUILD_REF}" >> ${GITHUB_ENV}
 
+            if [[ -z '${{ matrix.build.fooocus_api }}' ]]; then
+                FOOOCUS_API_BUILD_REF="$(curl -s https://api.github.com/repos/mrhan1993/Fooocus-API/tags | jq -r '.[0].name')"
+            else
+                FOOOCUS_API_BUILD_REF="${{ matrix.build.fooocus_api }}"
+            fi
+            [ -z "$FOOOCUS_API_BUILD_REF" ] && { echo "Error: FOOOCUS_API_BUILD_REF is empty. Exiting script." >&2; exit 1; }
+            echo "FOOOCUS_API_BUILD_REF=${FOOOCUS_API_BUILD_REF}" >> ${GITHUB_ENV}
+
             base_tag="v2-cpu-${{ env.UBUNTU_VERSION }}"
 
             if [[ ${{ matrix.build.latest }} == "true" ]]; then
@@ -90,6 +98,7 @@ jobs:
             PYTHON_VERSION=${{ matrix.build.python }}
             PYTORCH_VERSION=${{ matrix.build.pytorch }}
             FOOOCUS_BUILD_REF=${{ env.FOOOCUS_BUILD_REF }}
+            FOOCUS_API_BUILD_REF=${{ env.FOOOCUS_API_BUILD_REF }}
           push: true
           # Avoids unknown/unknown architecture and extra metadata
           provenance: false
@@ -102,7 +111,7 @@ jobs:
       matrix:
         build:
           # Undeclared release tag finds latest from GitHub tags
-          - {latest: "true", fooocus: "v2.5.5", python: "3.10", pytorch: "2.4.0", cuda: "12.1.1-base"}
+          - {latest: "false", fooocus: "d7439b2", python: "3.10", pytorch: "2.5.1", cuda: "12.1.1-base"}
           
     steps:
       -
@@ -158,6 +167,14 @@ jobs:
             [ -z "$FOOOCUS_BUILD_REF" ] && { echo "Error: FOOOCUS_BUILD_REF is empty. Exiting script." >&2; exit 1; }
             echo "FOOOCUS_BUILD_REF=${FOOOCUS_BUILD_REF}" >> ${GITHUB_ENV}
 
+            if [[ -z '${{ matrix.build.fooocus_api }}' ]]; then
+                FOOOCUS_API_BUILD_REF="$(curl -s https://api.github.com/repos/mrhan1993/Fooocus-API/tags | jq -r '.[0].name')"
+            else
+                FOOOCUS_API_BUILD_REF="${{ matrix.build.fooocus_api }}"
+            fi
+            [ -z "$FOOOCUS_API_BUILD_REF" ] && { echo "Error: FOOOCUS_API_BUILD_REF is empty. Exiting script." >&2; exit 1; }
+            echo "FOOOCUS_API_BUILD_REF=${FOOOCUS_API_BUILD_REF}" >> ${GITHUB_ENV}
+
             base_tag="v2-cuda-${{ matrix.build.cuda }}-${{ env.UBUNTU_VERSION }}"
 
             if [[ ${{ matrix.build.latest }} == "true" ]]; then
@@ -178,6 +195,7 @@ jobs:
             PYTHON_VERSION=${{ matrix.build.python }}
             PYTORCH_VERSION=${{ matrix.build.pytorch }}
             FOOOCUS_BUILD_REF=${{ env.FOOOCUS_BUILD_REF }}
+            FOOCUS_API_BUILD_REF=${{ env.FOOOCUS_API_BUILD_REF }}
           push: true
           provenance: false
           tags: ${{ env.TAGS }}
@@ -188,7 +206,7 @@ jobs:
       fail-fast: false
       matrix:
         build:
-          - {latest: "true", fooocus: "v2.5.5", python: "3.10", pytorch: "2.3.0", rocm: "6.0-core"}
+          - {latest: "true", fooocus: "d7439b2", python: "3.10", pytorch: "2.3.0", rocm: "6.0-core"}
     steps:
       -
         name: Free Space
@@ -243,6 +261,14 @@ jobs:
             [ -z "$FOOOCUS_BUILD_REF" ] && { echo "Error: FOOOCUS_BUILD_REF is empty. Exiting script." >&2; exit 1; }
             echo "FOOOCUS_BUILD_REF=${FOOOCUS_BUILD_REF}" >> ${GITHUB_ENV}
 
+            if [[ -z '${{ matrix.build.fooocus_api }}' ]]; then
+                FOOOCUS_API_BUILD_REF="$(curl -s https://api.github.com/repos/mrhan1993/Fooocus-API/tags | jq -r '.[0].name')"
+            else
+                FOOOCUS_API_BUILD_REF="${{ matrix.build.fooocus_api }}"
+            fi
+            [ -z "$FOOOCUS_API_BUILD_REF" ] && { echo "Error: FOOOCUS_API_BUILD_REF is empty. Exiting script." >&2; exit 1; }
+            echo "FOOOCUS_API_BUILD_REF=${FOOOCUS_API_BUILD_REF}" >> ${GITHUB_ENV}
+
             base_tag="v2-rocm-${{ matrix.build.rocm }}-${{ env.UBUNTU_VERSION }}"
 
             if [[ ${{ matrix.build.latest }} == "true" ]]; then
@@ -262,6 +288,7 @@ jobs:
             PYTHON_VERSION=${{ matrix.build.python }}
             PYTORCH_VERSION=${{ matrix.build.pytorch }}
             FOOOCUS_BUILD_REF=${{ env.FOOOCUS_BUILD_REF }}
+            FOOCUS_API_BUILD_REF=${{ env.FOOOCUS_API_BUILD_REF }}
           push: true
           provenance: false
           tags: ${{ env.TAGS }}

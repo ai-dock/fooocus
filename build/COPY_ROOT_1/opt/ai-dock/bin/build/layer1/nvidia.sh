@@ -8,6 +8,7 @@ build_nvidia_main() {
 
 build_nvidia_install_fooocus() {
     build_common_install_fooocus
+    build_common_install_fooocus_api
 }
 
 build_nvidia_run_tests() {

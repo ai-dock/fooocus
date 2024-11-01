@@ -12,7 +12,7 @@ ENV FOOOCUS_VENV_PYTHON=$FOOOCUS_VENV/bin/python
 ENV FOOOCUS_VENV_PIP=$FOOOCUS_VENV/bin/pip
 
 ENV IMAGE_SLUG="fooocus"
-ENV OPT_SYNC=Fooocus
+ENV OPT_SYNC=Fooocus:Fooocus-API
 
 # Prepare environment
 ARG PYTHON_VERSION="3.10"
