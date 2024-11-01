@@ -75,15 +75,35 @@ function start() {
     ARGS_COMBINED="${PLATFORM_ARGS} ${BASE_ARGS} $(cat /etc/fooocus_args.conf)"
     printf "Starting %s...\n" "${SERVICE_NAME}"
 
-    cd /opt/Fooocus-API
-
+    # Ensure Models are shared between UI and API if a real config isn't already present
     if [[ ! -e /opt/Fooocus-API/config.txt ]]; then
         ln -s /opt/Fooocus/config.txt /opt/Fooocus-API/config.txt
     fi
 
+    # Wait for Fooocus UI if we're sharing the config and it hasn't been disabled
+    if [[ -L /opt/Fooocus-API/config.txt && $(is_ui_disabled) = "false" ]]; then
+        while ! grep -q "^Started worker with PID" /var/log/supervisor/fooocus.log; do
+            echo "Waiting for Fooocus UI to finish startup routine"
+            sleep 1
+        done
+    fi
+    
+    cd /opt/Fooocus-API
+
     source "$FOOOCUS_VENV/bin/activate"
     LD_PRELOAD=libtcmalloc.so python main.py \
         ${ARGS_COMBINED} --port ${LISTEN_PORT} --skip-pip
+}
+
+is_ui_disabled() {
+    IFS="," read -r -a no_autostart <<< "$SUPERVISOR_NO_AUTOSTART"
+    for service in "${no_autostart[@]}"; do
+        if [[ $service = "fooocus" ]]; then
+            echo "true"
+            return
+        fi
+    done
+    echo "false"
 }
 
 start 2>&1
